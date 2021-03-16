@@ -120,3 +120,64 @@ var student = {
     rollno : 12
 };
 console.log("All properties: " + Object.keys(student));
+
+
+/* 11 task */
+function spaces (str) {
+    return str.trim();
+}
+console.log("Strip leading and trailing spaces: " + spaces("    Spaces   "));
+
+/* 12 task */
+function removeString(searchStr) {
+    const str = "Remove the first occurrence of a given 'search string' from a string";
+    return str.replace(searchStr, "");
+ }
+ console.log("Remove the first string: " + removeString("string"));
+ 
+ /* 13 task */
+ function findWord(searchStr) {
+     const str = "Find a word within a string.";
+     return str.indexOf(searchStr);
+ 
+ }
+ console.log("Find a word within a string: " + findWord("within"));
+ 
+ /* 14 task */
+ function removeTags(str) {
+     return str.replace(/<[^>]*>/g, '');
+ }
+ console.log(removeTags('<p><strong><em>PHP Exercises</em></strong></p>'));
+ 
+ 
+/* 15 task */
+function lastString (str, searchStr) {
+    let lastIndex = str.lastIndexOf(searchStr);
+    let lengthStr = searchStr.length + lastIndex;
+    return (lastIndex !== -1 && lengthStr === str.length) ? true : false;
+}
+console.log("String ends: " + lastString("String ends with a specified string", "string"));
+
+/* 16 task */
+function sizeObject () {
+    let student = {
+        name : "David Rayy",
+        sclass : "VI",
+        rollno : 12
+    };
+    return Object.keys(student).length;
+ } 
+console.log("Size of object : " + sizeObject());
+
+/* 17 task */
+function getElementArray(arr, countElem = 1) {
+    if(countElem < 0) {
+        return [];
+    }
+    return (countElem === 1) ? arr[0] : arr.slice(0, countElem);
+}
+console.log(getElementArray([7, 9, 0, -2]));
+console.log(getElementArray([],3));
+console.log(getElementArray([7, 9, 0, -2],3));
+console.log(getElementArray([7, 9, 0, -2],6));
+console.log(getElementArray([7, 9, 0, -2],-3));
