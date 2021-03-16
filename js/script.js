@@ -181,3 +181,95 @@ console.log(getElementArray([],3));
 console.log(getElementArray([7, 9, 0, -2],3));
 console.log(getElementArray([7, 9, 0, -2],6));
 console.log(getElementArray([7, 9, 0, -2],-3));
+
+/* 18 task */
+function mostFrequentItem () {
+    const arr = [3, 'a', 'a', 'a', 2, 3, 'a', 3, 'a', 2, 4, 9, 3];
+    let countElement = {};
+    for (let i=0; i<arr.length; i++) {
+        let res = arr.filter(item=>item === arr[i]);
+        countElement[res[0]] = res.length;
+    }
+    let max = Object.keys(countElement).reduce(function(item1, item2){
+        return (countElement[item2] > countElement[item1]) ? item2 : item1;
+    });
+    return max + " (" + countElement[max] + " times)";
+}
+console.log(mostFrequentItem());
+
+/* 19 task */
+function divisibleNumbers() {
+    for(let i=1; i<=100; i++){
+        if(i%3 === 0 && i%5 === 0){
+            console.log("FizzBuzz");
+        }else if(i%3 === 0) {
+            console.log("Fizz");
+        }else if(i%5 === 0) {
+            console.log("Buzz");
+        }else {
+            console.log(i);
+        }
+    }
+}
+divisibleNumbers();
+
+/* 20 task */
+function evenOddNumber() {
+    for(let i=0; i<=15; i++) {
+        console.log((i % 2 === 0) ? i + " is even" : i + " is odd");
+    }
+}
+evenOddNumber();
+
+/* 21 task */
+function checkHappyNumber(num) {
+    let n = 0;
+    let sum = 0;
+    let allNumber = [];
+    
+    while(num !== 1) {
+        if(allNumber[num]){
+            return false;
+        }
+        allNumber[num] = true;
+        sum = 0;
+        while (num > 0) {
+            sum += Math.pow((num%10),2);
+            num = Math.floor(num/10);
+        }
+        num = sum;
+    }
+    return (num === 1) ? true : false;
+}
+function happyNumber() {
+    let num = 0;
+    let allHappy = "";
+
+   for(let i=1; i<=5; i++) {
+        do
+            num++;
+        while (!checkHappyNumber(num));
+
+        allHappy += num + ",";
+    }
+    return allHappy.slice(0,allHappy.length-1);
+}
+console.log("Happy Numbers are: " + happyNumber());
+
+/* 22 task */
+function angleTriangle (first, second) {
+    if ((first + second) > 180) {
+        return "Can't be a triangle";
+    }
+    let third = 180 - first - second;
+    if(third < 90) {
+        return "Third angle is acute -> " + third + "\xB0";
+    }
+    if(third === 90) {
+        return "Third angle is right -> " + third + "\xB0";
+    }
+    if(third < 180) {
+        return "Third angle is obtuse -> " + third + "\xB0";
+    }
+}
+console.log(angleTriangle(30, 60));
