@@ -105,9 +105,36 @@ class Bow extends Weapon {
     }
 }
 
+class Staff extends Weapon {
+    constructor(id, name, attack, damageType, twoHanded){
+        super(id, name, attack, damageType, twoHanded);
+        this.setStaff();
+    }
+    setStaff() {
+        if(!this.twoHanded || this.damageType === "physical")
+            throw new Error("twoHanded must be true and damageType mustn't be physical");
+        
+        this.burn = (this.damageType === "fire") ? true : false;
+        this.poison = (this.damageType === "poison") ? true : false;
+        this.cold = (this.damageType === "water") ? true : false;
+        this.electrify = (this.damageType === "air") ? true : false; 
+        this.tremor = (this.damageType === "earth") ? true : false;
+    }
+
+    getItemInfo() {
+        let result = `${super.getItemInfo()} and has ${this.chance}% to apply `;
+        if(this.burn) result += "burn";
+        if(this.poison) result += "poison";
+        if(this.cold) result += "cold";
+        if(this.electrify) result += "electrify";
+        if(this.tremor) result += "tremor";
+        return result;
+    }
+}
+
 try{
-    const bowObject = new Bow(2, "Ivan Ivanov", 3, "water", true, "special");
-    console.log(bowObject.getItemInfo());
+    const staffObject = new Staff(2, "Ivan Ivanov", 3, "air", true);
+    console.log(staffObject.getItemInfo());
 }catch (e) {
     console.error(e);
 }
