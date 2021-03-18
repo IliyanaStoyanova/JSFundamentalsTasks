@@ -67,9 +67,48 @@ class Sword extends Weapon {
     }
 }
 
+class Bow extends Weapon {
+    constructor(id, name, attack, damageType, twoHanded, arrowType){
+        super(id, name, attack, damageType, twoHanded);
+        this.setBow();
+        this.setArrowType(arrowType);
+        this.setPierce();
+        this.setCritical();
+    }
+    setBow(){
+        if(this.twoHanded)
+            return this.bow = this.twoHanded;
+        throw new Error("twoHanded must be true!"); 
+    }
+    setArrowType(arrowType){
+        if(arrowType === "normal" || arrowType === "special") 
+            return this.arrowType = arrowType;
+        throw new Error("arrowType must be normal or special!");
+    }
+    setPierce() {
+        if(this.arrowType === "normal") {
+            return this.pierce = true;
+        }
+        return this.pierce = false;
+    }
+    setCritical() {
+        if(this.arrowType === "special") {
+            return this.critical = true;
+        }
+        return this.critical = false;
+    } 
+    getItemInfo() {
+        let pierceStr = "";
+        let criticalStr = "";
+        if(this.pierce) pierceStr = "pierce";
+        if(this.critical) criticalStr = "critical";
+        return `${super.getItemInfo()} and has ${this.chance}% to apply ${pierceStr}${criticalStr}`;
+    }
+}
+
 try{
-    const SwordObject = new Sword(2, "Ivan Ivanov", 3, "water", true);
-    console.log(SwordObject.getItemInfo());
+    const bowObject = new Bow(2, "Ivan Ivanov", 3, "water", true, "special");
+    console.log(bowObject.getItemInfo());
 }catch (e) {
     console.error(e);
 }
