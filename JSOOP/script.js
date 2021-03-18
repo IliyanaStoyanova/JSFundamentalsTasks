@@ -52,9 +52,24 @@ class Weapon extends Item {
     }
 }
 
+class Sword extends Weapon {
+    constructor(id, name, attack, damageType, twoHanded) {
+        super(id, name, attack, damageType, twoHanded);
+        this.cripple = this.twoHanded;
+        this.bleed = this.twoHanded;
+    }
+    getItemInfo() {
+        let crippleStr = "";
+        let bleedStr = "";
+        if(this.cripple) crippleStr = "cripple";
+        if(this.bleed) bleedStr = "bleed";
+        return `${super.getItemInfo()} has ${this.chance}% to ${crippleStr} ${bleedStr}`;
+    }
+}
+
 try{
-    const weaponObject = new Weapon(2, "Ivan Ivanov", 3, "water", true);
-    console.log(weaponObject.getItemInfo());
+    const SwordObject = new Sword(2, "Ivan Ivanov", 3, "water", true);
+    console.log(SwordObject.getItemInfo());
 }catch (e) {
     console.error(e);
 }
