@@ -76,9 +76,8 @@ class Bow extends Weapon {
         this.setCritical();
     }
     setBow(){
-        if(this.twoHanded)
-            return this.bow = this.twoHanded;
-        throw new Error("twoHanded must be true!"); 
+        if(!this.twoHanded)
+            throw new Error("twoHanded must be true!"); 
     }
     setArrowType(arrowType){
         if(arrowType === "normal" || arrowType === "special") 
