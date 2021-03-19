@@ -1,0 +1,19 @@
+form .group-control label,
+form .group-control input {
+    width: 250px;
+}
+form {
+    display: inline-block;
+    width: 500px;
+    text-align: right;
+}
+
+form .btn-number-submit, 
+form .btn-array-submit {
+    margin-top: 1rem;
+}
+
+.result {
+    font-weight: bold;
+    color: red;
+}

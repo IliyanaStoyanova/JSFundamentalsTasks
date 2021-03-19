@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Larger Number</title>
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>    
+    <form action="largerNumber.html" method="POST" name="numberForm">
+        <div class="group-control">
+            <label for="firstName">First Number in range [40...60]</label>
+            <input type="number" class="firstNumber" value="" min=40 max=60 />
+        </div>
+        <div class="group-control">
+            <label for="secondNumber">Second number in range [40...60]</label>
+            <input type="number" class="secondNumber" value="" min=40 max=60 /> 
+        </div>
+        <div class="group-control btn-number-submit">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+    
+    <div class="result"></div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
