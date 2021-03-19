@@ -1,3 +1,12 @@
+const random = {
+    setRandomNumber(min, max) {
+       this.chanceRandom = Math.floor(Math.random() * (max-min + 1)) + min;
+    }, 
+    getRandomNumber() {
+        return this.chanceRandom;
+    }
+};
+
 class Item {
     #id;
     #name;
@@ -16,9 +25,6 @@ class Item {
     }
 }
 
-// const itemObject = new Item(1, "Iliyana Stoyanova");
-// console.log(itemObject);
-
 class Weapon extends Item {
     #attack;
     #damageType;
@@ -29,10 +35,9 @@ class Weapon extends Item {
         this.#setAttack(attack);
         this.#setDamageType(damageType);
         this.#setTwoHanded(twoHanded);
-        this.#chance = this.randomNumber(5, 50);
-    }
-    randomNumber(min, max) {
-        return Math.floor(Math.random() * (max-min + 1)) + min;
+
+        Object.assign(this, random).setRandomNumber(5,50);
+        this.#chance = this.getRandomNumber();
     }
     #setAttack(attack) {
         if (attack >= 1 && attack <= 30000)
@@ -155,9 +160,41 @@ class Staff extends Weapon {
     }
 }
 
+class Armor extends Item {    
+    #defense;
+    #resistance;
+    #chance;
+    constructor(id, name, defense, resistance) {
+        super(id, name);
+        this.#setDefense(defense);
+        this.#setResistance(resistance);
+
+        Object.assign(this, random).setRandomNumber(10,100);
+        this.#chance = this.getRandomNumber();        
+    }
+    #setDefense(defense) {
+        if(defense >= 1 && defense <= 50000) 
+            return this.#defense = defense;
+        throw new Error("defense must be a number between 1 and 50000");
+    }
+    #setResistance(resistance) {
+        if(resistance === "physical" || 
+            resistance === "poison" || 
+            resistance === "fire" || 
+            resistance === "water" || 
+            resistance === "air" || 
+            resistance === "earth")            
+           return  this.#resistance = resistance;
+        throw new Error("resistance must be one of the following strings: physical, poison, fire, water, air, earth!");
+    }
+    getItemInfo() {        
+        return `${super.getItemInfo()} has ${this.#defense} and ${this.#chance}% ${this.#resistance} resistance to the string`;
+    }
+}
+
 try{
-     const staffObject = new Staff(2, "Ivan Ivanov", 3, "air", true);
-     console.log(staffObject.getItemInfo());
+     const armorObject = new Armor(2, "Ivan Ivanov", 3, "air");
+     console.log(armorObject.getItemInfo());
 }catch (e) {
     console.error(e);
 }
