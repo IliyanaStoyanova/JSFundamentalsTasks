@@ -6,6 +6,16 @@ const random = {
         return this.chanceRandom;
     }
 };
+const validate = {
+    checkRange (min, max, value) {
+        if(value >= min && value <= max)
+            return this.validate = true;
+        return this.validate = false;
+    },
+    getValidate() {
+        return this.validate;
+    }
+}
 
 class Item {
     #id;
@@ -15,7 +25,8 @@ class Item {
         this.#setName(name);
     }
     #setName(name) {        
-        if(name.length >= 3 && name.length <= 50)
+        Object.assign(this, validate).checkRange(3, 50, name.length);
+        if (this.getValidate())  
             return this.#name = name;
         throw new Error("Name must be a string between 3 and 50 letters!");
         
@@ -40,7 +51,8 @@ class Weapon extends Item {
         this.#chance = this.getRandomNumber();
     }
     #setAttack(attack) {
-        if (attack >= 1 && attack <= 30000)
+        Object.assign(this, validate).checkRange(1, 30000, attack);
+        if (this.getValidate())
             return this.#attack = attack;
         throw new Error("Attack must be a number between 1 and 30000!");
     }
@@ -171,9 +183,10 @@ class Armor extends Item {
 
         Object.assign(this, random).setRandomNumber(10,100);
         this.#chance = this.getRandomNumber();        
-    }
+    }    
     #setDefense(defense) {
-        if(defense >= 1 && defense <= 50000) 
+        Object.assign(this, validate).checkRange(1, 50000, defense);
+        if (this.getValidate())  
             return this.#defense = defense;
         throw new Error("defense must be a number between 1 and 50000");
     }
@@ -188,13 +201,124 @@ class Armor extends Item {
         throw new Error("resistance must be one of the following strings: physical, poison, fire, water, air, earth!");
     }
     getItemInfo() {        
-        return `${super.getItemInfo()} has ${this.#defense} and ${this.#chance}% ${this.#resistance} resistance to the string`;
+        return `${super.getItemInfo()} has ${this.#defense} and ${this.#chance}% ${this.#resistance} resistance`;
+    }
+}
+
+class Helm extends Armor {
+    #attractiveness; 
+    constructor(id, name, defense, resistance, attractiveness) {
+        super(id, name, defense, resistance);
+        this.#setAttractiveness(attractiveness);
+    }
+    #setAttractiveness(attractiveness) {
+        Object.assign(this, validate).checkRange(-5, 5, attractiveness);
+        if (this.getValidate())  
+            return this.#attractiveness = attractiveness;
+        throw new Error("attractiveness must be a number between -5 and 5");
+    }
+    getItemInfo() {
+        return `${super.getItemInfo()} and adds ${this.#attractiveness} attractiveness`;
+    }
+}
+
+class Boots extends Armor {
+    #speed;
+    constructor(id, name, defense, resistance, speed) {
+        super(id, name, defense, resistance);
+        this.#setSpeed(speed);
+    }
+    #setSpeed(speed) {
+        Object.assign(this, validate).checkRange(1, 10, speed);
+        if (this.getValidate())
+            return this.#speed = speed;
+        throw new Error("speed must be a number between 1 and 10");
+    }
+    getItemInfo() {
+        return `${super.getItemInfo()} and adds ${this.#speed} speed`;
+    }
+}
+
+class Gloves extends Armor {
+    #crafting;
+    constructor(id, name, defense, resistance, crafting) {
+        super(id, name, defense, resistance);
+        this.#setCrafting(crafting);
+    }
+    #setCrafting(crafting) {
+        Object.assign(this, validate).checkRange(1, 10, crafting);
+        if (this.getValidate())
+            return this.#crafting = crafting;
+        throw new Error("crafting must be a number between 1 and 10");
+    }
+    getItemInfo() {
+        return `${super.getItemInfo()} and adds ${this.#crafting} crafting`;
+    }
+}
+
+class Robe extends Armor {
+    #reputation;
+    constructor(id, name, defense, resistance, reputation) {
+        super(id, name, defense, resistance);
+        this.#setReputation(reputation);
+    }
+    #setReputation(reputation) {
+        Object.assign(this, validate).checkRange(1, 10, reputation);
+        if (this.getValidate())
+            return this.#reputation = reputation;
+        throw new Error("reputation must be a number between 1 and 10");
+    }
+    getItemInfo() {
+        return `${super.getItemInfo()} and adds ${this.#reputation} reputation`;
+    }
+}
+
+class Consumable extends Item {
+    #heals;
+    #type;
+    #effect;  
+    constructor(id, name, heals, type) {
+        super(id, name);
+        this.#setHeals(heals);
+        this.#setType(type);
+        this.#setEffect();
+    }
+    #setHeals(heals){
+        if (typeof heals === "boolean") 
+            return this.#heals = heals;
+        throw new Error("heals must be a boolean");
+    }
+    #setType(type){
+        if(type === "minor" ||
+            type === "medium" ||
+            type === "big")
+            return this.#type = type;
+        throw new Error("type must be one of string - minor, medium, big");
+    }
+    #setEffect(){
+        if(this.#type === "minor") {
+            Object.assign(this, random).setRandomNumber(1,10);
+            return this.#effect = this.getRandomNumber();
+        }
+        if(this.#type === "medium") {
+            Object.assign(this, random).setRandomNumber(11,20);
+            return this.#effect = this.getRandomNumber();
+        }
+        if(this.#type === "big") {
+            Object.assign(this, random).setRandomNumber(21,30);
+            return this.#effect = this.getRandomNumber();
+        }        
+    }
+    getItemInfo() {
+        if(this.#heals) 
+            return `${super.getItemInfo()} it is ${this.#type} potion and heals for ${this.#effect}`;
+        return `${super.getItemInfo()} it is ${this.#type} potion and damages for ${this.#effect}`;
     }
 }
 
 try{
-     const armorObject = new Armor(2, "Ivan Ivanov", 3, "air");
-     console.log(armorObject.getItemInfo());
+     const consumableObject = new Consumable(2, "Ivan Ivanov", true, "medium");
+     console.log(consumableObject.getItemInfo());
 }catch (e) {
     console.error(e);
 }
