@@ -40,9 +40,20 @@ if(formArray !== null) {
 
 /* 3 task */
 function reverseNumber (num) {
-    return (parseFloat(num.toString().split("").reverse().join("") )* Math.sign(num));
+    let arrayReverse = [];
+    let n = 0;
+    if(num < 0){
+        num = Math.abs(num);
+        arrayReverse[0] = "-";
+    }
+    while(num !== 0) {
+        n = parseInt(num % 10);
+        arrayReverse.push(n);
+        num = parseInt(num / 10);
+    }
+    return arrayReverse.join("");
 }
-console.log("This is reverse number: " + reverseNumber(2456000));
+console.log("This is reverse number: " + reverseNumber(-2451));
 
 /* 4 task */
 function factors (num) {
@@ -69,24 +80,11 @@ function swapPairs (num) {
 console.log("This is swap pairs of adjacent digits: " + swapPairs(148765));
 
 /* 6 task */
-function largestNumber (firstNumber, secondNumber, thirdNumber, fourthNumber, fifthNumber){
-    let largest = firstNumber;
-    if(secondNumber > largest) {
-        largest = secondNumber;
-    }
-    if(thirdNumber > largest) {
-        largest = thirdNumber;
-    }
-    if(fourthNumber > largest) {
-        largest = fourthNumber;
-    }
-    if(fifthNumber > largest) {
-        largest = fifthNumber;
-    }
-    
-    return largest;
+function largestNumber (arrNumber){
+     let largest = Math.max(...arrNumber);
+     return largest;
 }
-alert("Largest Number is " + largestNumber(3, 56, 12, 7));
+alert("Largest Number is " + largestNumber([3, 56, 12, 7]));
 
 /* 7 task */
 function joinElements(myColor) {
@@ -136,12 +134,11 @@ function removeString(searchStr) {
  console.log("Remove the first string: " + removeString("string"));
  
  /* 13 task */
- function findWord(searchStr) {
-     const str = "Find a word within a string.";
+ function findWord(searchStr, str) {
      return str.indexOf(searchStr);
  
  }
- console.log("Find a word within a string: " + findWord("within"));
+ console.log("Find a word within a string: " + findWord("within", "Find a word within a string."));
  
  /* 14 task */
  function removeTags(str) {
@@ -183,8 +180,7 @@ console.log(getElementArray([7, 9, 0, -2],6));
 console.log(getElementArray([7, 9, 0, -2],-3));
 
 /* 18 task */
-function mostFrequentItem () {
-    const arr = [3, 'a', 'a', 'a', 2, 3, 'a', 3, 'a', 2, 4, 9, 3];
+function mostFrequentItem (arr) {
     let countElement = {};
     for (let i=0; i<arr.length; i++) {
         let res = arr.filter(item=>item === arr[i]);
@@ -195,7 +191,7 @@ function mostFrequentItem () {
     });
     return max + " (" + countElement[max] + " times)";
 }
-console.log(mostFrequentItem());
+console.log(mostFrequentItem([3, 'a', 'a', 'a', 2, 3, 'a', 3, 'a', 2, 4, 9, 3]));
 
 /* 19 task */
 function divisibleNumbers() {
@@ -246,8 +242,9 @@ function happyNumber() {
     let allHappy = "";
 
    for(let i=1; i<=5; i++) {
-        do
+        do {
             num++;
+        }
         while (!checkHappyNumber(num));
 
         allHappy += num + ",";
