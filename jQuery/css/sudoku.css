@@ -1,0 +1,66 @@
+/* Header */
+
+#header {
+  background-color: rgb(108, 168, 72);
+  height: 60px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+}
+
+#header img {
+  margin-right: 12px;
+}
+
+#header h1 {
+  font-size: 1.5rem;
+  color: #f1f1f1;
+}
+
+/* Main content */
+
+.currencies .form-check {
+  display: inline-block;
+  margin-right: 12px;
+}
+
+.results .game-container,
+.results .error-message {
+  display: none;
+}
+
+.results .error-message {
+  text-align: center;
+}
+
+.game-container {
+  width: 480px;
+  height: 480px;
+  margin: auto;
+}
+.board {
+  width: 465px;
+}
+.cell {
+  display: inline-block;
+  width: 50px;
+}
+.cell input {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  font-weight: bold;
+}
+.game-container > .board:nth-child(3n) {
+  border-bottom: 0.2rem solid #000;
+}
+.game-container > .board {
+  border-left: 0.2rem solid #000;
+}
+.game-container > .board:first-child {
+  border-top: 0.2rem solid #000;
+}
+.board > div:nth-child(3n) {
+  border-right: 3.3rem solid #000;
+}
