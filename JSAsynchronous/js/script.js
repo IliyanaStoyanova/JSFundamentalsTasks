@@ -1,4 +1,4 @@
-const promiseArray = capitalize(['music', 'javascript', 'cinema', 'php']);
+const arrWords = ['music', 'javascript', 'cinema', 'php'];
 
 function capitalize(arrWord) {
     return new Promise(function(resolve, reject){
@@ -12,9 +12,12 @@ function capitalize(arrWord) {
         resolve(uppercaseArray);
     });
 }
-
-promiseArray
-    .then(function(arrWord){
-        console.log(arrWord.sort());
-    })
-    .catch(err => console.error(err));
+function sortWords(arrWord) {
+    return arrWord.sort();
+}
+(async function() {
+    const res = Promise.resolve(capitalize(arrWords));
+    await res.then(function(result){
+        console.log(sortWords(result));
+    }).catch(err => console.error(err));
+})();
