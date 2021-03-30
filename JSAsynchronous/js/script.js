@@ -13,11 +13,16 @@ function capitalize(arrWord) {
     });
 }
 function sortWords(arrWord) {
-    return arrWord.sort();
+    return new Promise(function(resolve, reject) {
+        resolve(arrWord.sort());
+    });
 }
 (async function() {
     const res = Promise.resolve(capitalize(arrWords));
-    await res.then(function(result){
-        console.log(sortWords(result));
+    await res.then(async function(result){
+       const resSort = Promise.resolve(sortWords(result));
+       await resSort.then(function(result){
+            console.log(result);
+       });
     }).catch(err => console.error(err));
 })();
