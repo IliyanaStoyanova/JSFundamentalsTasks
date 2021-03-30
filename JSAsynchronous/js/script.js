@@ -21,14 +21,3 @@ function sortWords(arrWord) {
 capitalize(arrWords)
 .then(sortWords)
 .then(console.log);
-    //sortWords(result);
-
-// .then((result) => {
-//     console.log(result);
-// });
-    // await res.then(async function(result){
-    //    const resSort = Promise.resolve(sortWords(result));
-    //    await resSort.then(function(result){
-    //         console.log(result);
-    //    });
-    // }).catch(err => console.error(err));
