@@ -17,12 +17,18 @@ function sortWords(arrWord) {
         resolve(arrWord.sort());
     });
 }
-(async function() {
-    const res = Promise.resolve(capitalize(arrWords));
-    await res.then(async function(result){
-       const resSort = Promise.resolve(sortWords(result));
-       await resSort.then(function(result){
-            console.log(result);
-       });
-    }).catch(err => console.error(err));
-})();
+
+capitalize(arrWords)
+.then(sortWords)
+.then(console.log);
+    //sortWords(result);
+
+// .then((result) => {
+//     console.log(result);
+// });
+    // await res.then(async function(result){
+    //    const resSort = Promise.resolve(sortWords(result));
+    //    await resSort.then(function(result){
+    //         console.log(result);
+    //    });
+    // }).catch(err => console.error(err));
