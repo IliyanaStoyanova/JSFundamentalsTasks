@@ -4,111 +4,134 @@ const keyDown = document.querySelector("div.arrowBottom");
 const keyLeft = document.querySelector("div.arrowLeft");
 const keyRight = document.querySelector("div.arrowRight");
 const result = document.querySelector("div.result");
+
 const canvas = document.querySelector("canvas");
-const rectWidth = 100;
-const rectHeight = 60;
-let x = 0;
-let y = 0;
-let arrRectX = [];
-let arrRectY = [];
-let arrLineX = [];
-let arrLineY = [];
+const context = canvas.getContext('2d');
 
-function redraw(context) {
-    clear(context);
-    const rectX = context.canvas.width/2-50+x;
-    const rectY = context.canvas.height/2-30+y;
-    drawLine(context);
-    rectangleComponent(context, rectWidth, rectHeight, "blue", rectX, rectY);
-}
+const map = {x:0, y:0, width: 600, height: 450, color: "white" };
+const player = {x:0, y:0, width: 100, height: 60, color: "blue" };
+const lineTop = {x:0, y:10, width: 100, height: 1, color: "black" };
+const lineLeft = {x:10, y:0, width: 1, height: 100, color: "black"};
+const lineRight = {x:10, y:0, width: 1, height: 100, color: "black"};
 
-function clear(context) {
-    arrLineX = [];
-    arrLineY = [];
-    arrRectX = [];
-    arrRectY = [];
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-}
+let intervalID = "";
+let dx = 0;
+let dy = 0;
+
+divContainer.addEventListener('load', startGame());
 
 function startGame() {    
-    canvas.width = 800;
-    canvas.height = 600;   
-    const context = canvas.getContext("2d");  
-    redraw(context);
+    canvas.setAttribute("width", 600);
+    canvas.setAttribute("height", 600);
+    
+    clearProperties();
+    drawLine();
+    resetRectangle();
 }
+function resetRectangle() {
+    context.beginPath();
+    player.x = map.x + (map.width - player.width) * .5;
+    player.y = map.y + (map.height - player.height) * .5;
 
-function check(context) {    
+    context.fillStyle = player.color;
+    context.fillRect (player.x,player.y,player.width,player.height);
+    context.stroke();
+}
+function drawLine(){
+    context.beginPath();
+    context.fillStyle = map.color;
+    context.fillRect (map.x,map.y,map.width,map.height);
+    context.stroke();
+
+    context.beginPath();
+    lineTop.x = map.x + (map.width - lineTop.width) * .5;
+    context.fillStyle = lineTop.color;
+    context.fillRect(lineTop.x, lineTop.y, lineTop.width, lineTop.height);
+    context.stroke();
+
+    context.beginPath();
+    lineLeft.y = map.y + (map.height - lineLeft.height) * .5;
+    context.fillStyle = lineLeft.color;
+    context.fillRect(lineLeft.x, lineLeft.y, lineLeft.width, lineLeft.height);
+    context.stroke();
+
+    context.beginPath();
+    lineRight.x = map.x + (map.width - lineRight.width - 10);
+    lineRight.y = map.y + (map.height - lineRight.height) *.5;
+    context.fillStyle = lineRight.color;
+    context.fillRect(lineRight.x, lineRight.y, lineRight.width, lineRight.height);
+    context.stroke();
+}
+function clearProperties(){
     result.innerHTML = "";
-    if(context.canvas.height/2+30 - y === context.canvas.height-50){
-        let equal = arrRectX.filter(item=>arrLineX.includes(item));
-        if(Object.keys(equal).length > 0){
-           result.innerHTML = "Line Top";
-        }
-    }
-    if(context.canvas.width/2 -50 + x === 50){
-        let equal = arrRectY.filter(item=>arrLineY.includes(item));
-        if(Object.keys(equal).length > 0){
-           result.innerHTML = "Line Left";
-        }
-    }
-    if(context.canvas.width/2 + 50 + x === context.canvas.width-50){
-        let equal = arrRectY.filter(item=>arrLineY.includes(item));
-        if(Object.keys(equal).length > 0){
-           result.innerHTML = "Line Right";
-        }
-    }
+    context.clearRect(0, 0, map.width, map.height);
 }
-function rectangleComponent(context, width, height, color, x, y) {
-    context.beginPath();
-    context.fillStyle = color;
-    context.fillRect(x, y, width, height);
-    for(let i=x; i<=x+width; i++){
-        arrRectX.push(i);
-    }
-    for(let i=y; i<=y+height; i++){
-        arrRectY.push(i);
-    }
-    context.stroke();
-    check(context);
+function drawRectangle () {
+    clearProperties();
+    drawLine();
+    context.fillStyle = player.color;
+    context.fillRect (player.x,player.y,player.width,player.height);
 }
 
-function drawLine(context){
-    context.strokeStyle = "#000";
-    context.beginPath();
-    context.moveTo(context.canvas.width/2-50, 50);
-    context.lineTo(context.canvas.width/2+50, 50);
-    for(let i=context.canvas.width/2-50; i<=context.canvas.width/2+50; i++){
-        arrLineX.push(i);
-    }
-    context.stroke();
-    context.beginPath();
-    context.moveTo(50, context.canvas.height/2-50);
-    context.lineTo(50, context.canvas.height/2+50);
-    for(let i=context.canvas.height/2+50; i>=context.canvas.height/2-50; i--){
-        arrLineY.push(i);
-    }
-    context.stroke();
-    context.beginPath();
-    context.moveTo(context.canvas.width-50, context.canvas.height/2-50);
-    context.lineTo(context.canvas.width-50, context.canvas.height/2+50);
-    context.stroke();
+function contains(collisionBounds, target) {
+    const checkCollision = new Promise((resolve, reject) => {
+        let result = (target.x + target.width >= collisionBounds.x &&
+            target.x <= collisionBounds.x + collisionBounds.width &&
+            target.y + target.height >= collisionBounds.y &&
+            target.y <= collisionBounds.y + collisionBounds.height
+            );
+       return result ? resolve(true) : reject(false);
+    });
+    return checkCollision;
 }
-
-divContainer.addEventListener("load", startGame());
 
 keyUp.addEventListener("click", function(e){
-    y-=5;
-    startGame();
+    clearInterval(intervalID);  
+    intervalID  = setInterval(async function(){
+        drawRectangle();      
+        let resCollision = Promise.resolve(contains(player, lineTop));
+        await resCollision.then(function(){  
+            clearInterval(intervalID);
+            result.innerHTML = "Line Top";
+        }).catch(function(){
+            dy = 2; dx = 0;
+            player.y -= dy;
+        });
+    },  50);
 });
-keyDown.addEventListener("click", function(e){    
-    y+=5;
-    startGame();
+keyDown.addEventListener("click", function(e){
+    clearInterval(intervalID);
+    intervalID = setInterval(async function(){
+        drawRectangle();
+        dy = -2; dx = 0;
+        player.y += -dy;
+    }, 50);
 });
-keyLeft.addEventListener("click",function(e){
-    x-=5;
-    startGame();
+keyLeft.addEventListener("click", function(e){
+    clearInterval(intervalID);
+    intervalID = setInterval(async function(){
+        drawRectangle();
+        let resCollision = Promise.resolve(contains(player, lineLeft));
+        await resCollision.then(function(){  
+            clearInterval(intervalID);
+            result.innerHTML = "Line Left";
+        }).catch(function(){
+            dy = 0; dx = 2
+            player.x -= dx;
+        });
+    }, 50);
 });
-keyRight.addEventListener("click",function(e){
-    x+=5;
-    startGame();
+keyRight.addEventListener("click", function(e){
+    clearInterval(intervalID);
+    intervalID = setInterval(async function(){
+        drawRectangle();
+        let resCollision = Promise.resolve(contains(player, lineRight));
+        await resCollision.then(function(){
+            clearInterval(intervalID);
+            result.innerHTML = "Line Right";
+        }).catch(function(){  
+            dy = 0; dx = -2
+            player.x += -dx;
+        });
+    }, 50);
 });
