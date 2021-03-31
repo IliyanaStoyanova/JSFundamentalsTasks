@@ -1,0 +1,113 @@
+canvas {
+  padding: 0;
+  margin: auto;
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 1px solid #d3d3d3;
+  background-color: #f1f1f1;
+}
+
+div.icons {
+  position: absolute;
+  bottom: 0;
+  width: 7rem;
+  left: 0;
+  right: 0;
+  margin: auto;
+  padding-bottom: 5%;
+}
+div.arrowRight {
+  float: right;
+  border: 1px solid #000;
+  width: 30px;
+  height: 20px;
+}
+div.arrowRight:after {
+  content: "";
+  display: inline-block;
+  border-left: 10px solid #000;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  vertical-align: middle;
+}
+div.arrowRight:before {
+  width: 20px;
+  height: 2px;
+  background-color: #000;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+div.arrowTop,
+div.arrowBottom {
+  border: 1px solid #000;
+  width: 20px;
+  height: 30px;
+  margin: auto;
+}
+div.arrowTop::after {
+  width: 2px;
+  height: 20px;
+  background-color: #000;
+  content: "";
+  display: block;
+  margin: auto;
+}
+div.arrowTop::before {
+  content: "";
+  display: block;
+  border-bottom: 10px solid #000;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+}
+div.arrowBottom::after {
+  content: "";
+  display: block;
+  border-top: 10px solid #000;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+}
+div.arrowBottom::before {
+  width: 2px;
+  height: 20px;
+  background-color: #000;
+  content: "";
+  display: block;
+  margin: auto;
+}
+
+div.arrowLeft {
+  border: 1px solid #000;
+  width: 30px;
+  height: 20px;
+}
+div.arrowLeft:after {
+  width: 20px;
+  height: 2px;
+  background-color: #000;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+div.arrowLeft:before {
+  content: "";
+  display: inline-block;
+  border-right: 10px solid #000;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  vertical-align: middle;
+}
+div.row-arrow {
+  display: flex;
+  justify-content: space-between;
+}
+div.result {
+  border: 2px solid #ccc;
+  width: 150px;
+  height: 50px;
+  color: red;
+}
