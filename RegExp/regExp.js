@@ -1,29 +1,65 @@
-const localeReg = "bg_BG".match(/[a-z]{2}_[A-Z]{2}?/);
-console.log(localeReg);
+function locale(str) {
+    return str.match(/([a-z]{2})(_[A-Z]{2})?/);
+};
+console.log(locale("fr"));
 
-const passReg = "fd a$sFg%G34 ghg".match(/[\w\s*&$#+=%^@]{8,64}/);
-const passBonusReg = "fd a$sFg%35Ghg".match(/(?=.*[a-z])(?=.*\d)(?=.*[ _*&$#+=%^@)(])?(?=.*[A-Z]).{8,64}/);
-console.log(passBonusReg);
+function passCheck(str) {
+     return str.match(/(?=.*[A-Z])?(?=.*[a-z])?(?=.*[0-9])?(?=.*[~!@#$%^&*()_\-+=|\\{}[\]:;<>?/])?(?=[^ ]*[ ]?[^ ]*$).{8,64}$/);
+}
 
-const phoneReg = "+35982502010".match(/^([+]359|0)\d{6,9}/);
-console.log(phoneReg);
+function bonusCheck(str) {
+    return str.match(/(?=.*[a-z])(?=.*\d)(?=.*[ _*&$#+=%^@)(])?(?=.*[A-Z]).{8,64}/);
+}
+console.log(passCheck("stTG h%b5k"));
+console.log(bonusCheck("stTG h%b5k"));
 
-const emailReg = "my_unique_mail.01+comment@sub.domain.example.com".match(/([\w.+]+)@([a-z.]+)(.[a-zA-Z]{2,}$)/);
-console.log(emailReg);
+function phoneReg(str) {
+    return str.match(/^([+]359|0)\d{6,9}/);
+}
+console.log(phoneReg("+35982502010"));
 
-const nameReg = "Ана-Мария Димитрова Петкова";
-const regex = /([а-яА-Я-.]+\s)([а-яА-Я-.]+\s)?([а-яА-Я-.]+)/;
-console.log(nameReg.match(regex));
-const newName = nameReg.replace(regex, "$3, $1");
-console.log(newName);
+function emailReg(str) {
+    return emailReg = str.match(/([\w.+]+)@([a-z.]+)(.[a-zA-Z]{2,}$)/);
+}
+console.log(emailReg("my_unique_mail.01+comment@sub.domain.example.com"));
 
-const urlReg = "ftp://johnsmith@my.domain.com:8080/path/to/resource/file.txt";
-const regexUrl = /^([a-z]+):[/]{2}([w]{3})?\.?([a-z.]+@)?\/?([a-z.]+):?(\d+)?\/?([/\w]+[/|?])?([\w]+[.a-z]+)?([?\w=&]+)?/;
-console.log(urlReg.match(regexUrl));
+function nameReg(str) {
+    const regex = /([а-яА-Я-.]+\s)([а-яА-Я-.]+\s)?([а-яА-Я-.]+)/;
+    str.match(regex);
+    return str.replace(regex, "$3, $1");
+}
+console.log(nameReg("Ана-Мария Димитрова Петкова"));
 
-const ipReg = "192.168.0.1";
-const regexIP = /([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$/;
-console.log(ipReg.match(regexIP));
+function urlReg(str) {
+    const regexUrl = /^(?:[a-z]+):[/]{2}([w]{3})?\.?([a-z.]+(?=@))?(?:@)?\/?([a-z.]+):?(\d+)?\/?([/\w]+(?=\/|\?))?(?:\/)?([/\w]+)?(?:\.)?([.a-z]+)?([?\w=&]+)?/;
+    const urlParth = str.match(regexUrl);
+    const jsonElem = {
+        "host": urlParth[1],
+        "username": urlParth[2],
+        "domain": urlParth[3],
+        "port": urlParth[4],
+        "path": urlParth[5],
+        "filename" : urlParth[6],
+        "extension" : urlParth[7],
+        "query" : urlParth[8]
+    }
+     return jsonElem;
+}
+const resultUrl = urlReg("ftp://johnsmith@my.domain.com:8080/path/to/resource/file.txt");
+console.log(resultUrl.host);
+console.log(resultUrl.username);
+console.log(resultUrl.domain);
+console.log(resultUrl.port);
+console.log(resultUrl.path);
+console.log(resultUrl.filename);
+console.log(resultUrl.extension);
+console.log(resultUrl.query);
+
+function ipReg(str) {
+    const regexIP = /([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$/;
+    return str.match(regexIP);    
+}
+console.log(ipReg("192.168.0.1"));
 
 const ListofDays = {
     "01": 31,
